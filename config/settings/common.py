@@ -40,12 +40,15 @@ THIRD_PARTY_APPS = (
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+
+    'taggit',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'OWR.users',  # custom users app
     # Your stuff: custom apps go here
+    'OWR.oh',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
