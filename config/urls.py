@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^admin/', include(admin.site.urls)),
 
     # User management
