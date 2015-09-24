@@ -38,7 +38,7 @@ function showError(msg) {
 /*
  * TODO: create generic function for AJAX calls.
  */
-function call_like(url, data, on_success, on_error) {
+function call_like(url, data, obj, on_success, on_error) {
             $.ajax(url, {
                 data: JSON.stringify(data),
                 type: 'POST',
@@ -117,7 +117,7 @@ $('.like-action').on('click', null, function() {
         that.attr('data-action', data['action'] == 'set' ? 'unset' : 'set');
     };
 
-    call_like('{% url 'oh:like_set' %}', {id: $id, action: action}, __on_success, _on_error);
+    call_like('{% url 'oh:like_set' %}', {id: $id, action: action}, $(this), __on_success, _on_error);
 });
 </script>
 {% endblock javascript %}
