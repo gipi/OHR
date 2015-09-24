@@ -1,6 +1,8 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from django.contrib import admin
+from config import settings
+
 
 def resolve_upload_path(prefix):
     def _resolve(instance, filename):
@@ -36,6 +38,18 @@ class OpenHardware(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class OpenHardwareLike(models.Model):
+    '''
+    Connect the User to the Open Hardware she likes.
+    '''
+    user = models.ForeignKey(settings.common.AUTH_USER_MODEL)
+    oh   = models.ForeignKey(OpenHardware)
+
+    @staticmethod
+    def get_oh_for_user(user):
+        return [_.oh for _ in OpenHardwareLike.objects.filter(user=user)]
+
 
 @admin.register(OpenHardware)
 class OpenHardwareAdmin(admin.ModelAdmin):
