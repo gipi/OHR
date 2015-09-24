@@ -15,7 +15,11 @@
         <h4 class="card-title"><a href="#">{{ item.name }}</a></h4>
         <p class="card-text">{{ item.short_description }}</p>
           <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
-          <p><a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set"><i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i></a></p>
+          <p>
+              <a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set">
+                  <i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>
+              </a>
+          </p>
       </div>
 </div>
 </div>
