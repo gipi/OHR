@@ -8,6 +8,15 @@ def resolve_upload_path(prefix):
 
     return _resolve
 
+def resolve_upload_path_image(instance, filename):
+    return resolve_upload_path('images')
+
+def resolve_upload_path_schematics(instance, filename):
+    return resolve_upload_path('schematics')
+
+def resolve_upload_path_layout(instance, filename):
+    return resolve_upload_path('layout')
+
 class OpenHardware(models.Model):
     '''
     This model represents the Open Hardware device linked with all the
@@ -19,9 +28,9 @@ class OpenHardware(models.Model):
     description = models.TextField()
 
     url        = models.URLField(help_text=u'Main site')
-    image      = models.ImageField(upload_to=resolve_upload_path('images')) # TODO: multiple images
-    schematics = models.FileField(upload_to=resolve_upload_path('schematics'))
-    layout     = models.FileField(upload_to=resolve_upload_path('layout'))
+    image      = models.ImageField(upload_to=resolve_upload_path_image) # TODO: multiple images
+    schematics = models.FileField(upload_to=resolve_upload_path_schematics)
+    layout     = models.FileField(upload_to=resolve_upload_path_layout)
 
     tags = TaggableManager()
 
