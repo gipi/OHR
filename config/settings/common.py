@@ -271,6 +271,11 @@ LOGGING = {
             'handlers': ['console', 'mail_admins'],
             'propagate': True,
         },
+        'OWR.oh': {
+            'level': 'DEBUG',
+            'handlers': ['console',],
+            'propagate': True,
+        }
     }
 }
 
