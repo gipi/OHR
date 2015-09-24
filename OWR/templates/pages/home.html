@@ -15,14 +15,105 @@
         <h4 class="card-title"><a href="#">{{ item.name }}</a></h4>
         <p class="card-text">{{ item.short_description }}</p>
           <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
-          <p><a href=""><i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i></a></p>
+          <p><a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set"><i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i></a></p>
       </div>
 </div>
 </div>
 {% empty %}
 It's not possible, NO Open Hardware!!!
 {% endfor %}
-<script>
-
-</script>
 {% endblock content %}
+
+{% block javascript %}
+{{ block.super }}
+<script type="text/javascript">
+function showError(msg) {
+    console.log('ERRORE: ' + msg);
+}
+
+/*
+ * TODO: create generic function for AJAX calls.
+ */
+function call_like(url, data, on_success, on_error) {
+            $.ajax(url, {
+                data: JSON.stringify(data),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function(data) {
+                    console.log('success');
+
+                    on_success(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown ) {
+                    console.log('status: ' + textStatus + ' error: ' + errorThrown);
+
+                    // first of all exclude know errors
+                    if (textStatus == 'error' && errorThrown == 'FORBIDDEN') {
+                        showError('You need to be logged');
+                        return;
+                    }
+
+                    var errorMessage = '';
+                    try {
+                        // with a 500 this is not parseable
+                        var response = JSON.parse(jqXHR.responseText);
+                        var errorMessage = errorThrown;
+
+                        if (response.status == 'ko') {
+                            errorMessage = response.message;
+                        }
+                    } catch (e) {
+                        errorMessage = 'Server error';
+                    }
+                    showError(errorMessage);
+
+                    on_error();
+                }
+            });
+}
+
+function _on_success(data) { {% block js_on_success %}{% endblock %} }
+function _on_error() { {% block js_on_error %}{% endblock %} }
+
+/*
+ * TODO: create minimal app to add ajax functionality
+ *       to a django project, like http://yceruto.github.io/django-ajax/
+ */
+$('.like-action').on('click', null, function() {
+    var that = $(this);
+    var $id = $(this).attr('data-id');
+    var action = $(this).attr('data-action');
+
+    var __on_success = function(data) {
+        var table = {};
+
+        var i = that.find('i');
+
+        console.log('that: ' + that);
+
+        if (data['action'] == 'unset') {
+            table['add'] = 'fa-star-o';
+            table['remove'] = 'fa-star';
+        } else if (data['action'] == 'set') {
+            table['add'] = 'fa-star';
+            table['remove'] = 'fa-star-o';
+        } else {
+            throw new Exception('action not allowed!!!');
+        }
+
+        if (i.hasClass(table['remove'])) {
+            i.removeClass(table['remove']);
+        }
+
+        if (!i.hasClass(table['add'])) {
+            i.addClass(table['add']);
+        }
+
+        // use .attr() to change data-* attributes
+        that.attr('data-action', data['action'] == 'set' ? 'unset' : 'set');
+    };
+
+    call_like('{% url 'oh:like_set' %}', {id: $id, action: action}, __on_success, _on_error);
+});
+</script>
+{% endblock javascript %}

@@ -28,7 +28,6 @@
     {% block angular %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
     {% endblock %}
-
   </head>
 
   <body>
@@ -92,6 +91,7 @@
 
       <!-- place project specific Javascript in this file -->
       <script src="{% static 'js/project.js' %}"></script>
+      <script src="{% static 'js/csrf.js' %}"></script>
     {% endblock javascript %}
   </body>
 </html>
