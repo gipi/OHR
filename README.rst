@@ -46,6 +46,30 @@ To run the tests, check your test coverage, and generate an HTML coverage report
     $ coverage run manage.py test
     $ coverage html
     $ open htmlcov/index.html
+    $ coverage report
+    Name                          Stmts   Miss  Cover
+    -------------------------------------------------
+    OWR/__init__                      2      0   100%
+    OWR/contrib/__init__              0      0   100%
+    OWR/contrib/sites/__init__        0      0   100%
+    OWR/oh/__init__                   0      0   100%
+    OWR/oh/factory                    6      0   100%
+    OWR/oh/models                    34      8    76%
+    OWR/oh/tests                     60      0   100%
+    OWR/oh/urls                       4      0   100%
+    OWR/oh/views                     24      0   100%
+    OWR/users/__init__                0      0   100%
+    OWR/users/admin                  24      0   100%
+    OWR/users/factory                 9      0   100%
+    OWR/users/models                 13      0   100%
+    OWR/users/tests/__init__          0      0   100%
+    OWR/users/tests/test_admin       17      0   100%
+    OWR/users/tests/test_models       8      0   100%
+    OWR/users/tests/test_views       25      0   100%
+    OWR/users/urls                    4      0   100%
+    OWR/users/views                  24      0   100%
+    -------------------------------------------------
+    TOTAL                           254      8    97%
 
 Live reloading and Sass CSS compilation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
