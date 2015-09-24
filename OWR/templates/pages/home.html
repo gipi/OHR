@@ -1,1 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
+{% load oh_tags %}
+
+{% block content %}
+{% likes_for_user user as likes %}
+{% comment %}
+    Here we show the list of the OSHW element present in the database
+{% endcomment %}
+{% for item in object_list %}
+<div class="col-md-4">
+    <div class="card">
+      <img class="card-img-top" src="{{ item.image.url }}" style="width:100%" alt="Card image cap">
+      <div class="card-block">
+        <h4 class="card-title"><a href="#">{{ item.name }}</a></h4>
+        <p class="card-text">{{ item.short_description }}</p>
+          <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
+          <p><a href=""><i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i></a></p>
+      </div>
+</div>
+</div>
+{% empty %}
+It's not possible, NO Open Hardware!!!
+{% endfor %}
+<script>
+
+</script>
+{% endblock content %}
