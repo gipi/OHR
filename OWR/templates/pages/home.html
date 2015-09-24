@@ -39,6 +39,18 @@ function showError(msg) {
  * TODO: create generic function for AJAX calls.
  */
 function call_like(url, data, obj, on_success, on_error) {
+            var removeSpinner = function () {
+                icon.removeClass('fa-spinner');
+                icon.removeClass('fa-spin');
+            }
+
+            var icon = obj.find('i');
+            icon.removeClass('fa-star');
+            icon.removeClass('fa-star-o');
+
+            icon.addClass('fa-spinner');
+            icon.addClass('fa-spin');
+
             $.ajax(url, {
                 data: JSON.stringify(data),
                 type: 'POST',
@@ -46,10 +58,15 @@ function call_like(url, data, obj, on_success, on_error) {
                 success: function(data) {
                     console.log('success');
 
+                    removeSpinner();
+
                     on_success(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown ) {
                     console.log('status: ' + textStatus + ' error: ' + errorThrown);
+                    removeSpinner();
+
+                    icon.addClass('fa-exclamation-triangle')
 
                     // first of all exclude know errors
                     if (textStatus == 'error' && errorThrown == 'FORBIDDEN') {
