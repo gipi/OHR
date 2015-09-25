@@ -39,5 +39,6 @@ redis>=2.10.0
 
 
 # Your custom requirements go here
+django-cookie-law==1.0.6
 django-jet==0.0.9
 django-taggit==0.17.1

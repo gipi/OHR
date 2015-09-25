@@ -1,4 +1,5 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
+{% load staticfiles i18n %}
+{% load cookielaw_tags %}<!DOCTYPE html>
 <html lang="en" ng-app>
   <head>
     <meta charset="utf-8">
@@ -31,7 +32,6 @@
   </head>
 
   <body>
-    
     <div class="m-b-lg">
       <nav class="navbar navbar-dark navbar-static-top bg-inverse">
         <div class="container">
@@ -60,7 +60,7 @@
         </div>
       </nav>
     </div>
-
+{% cookielaw_banner %}
     <div class="container">
 
       {% if messages %}
@@ -92,6 +92,7 @@
       <!-- place project specific Javascript in this file -->
       <script src="{% static 'js/project.js' %}"></script>
       <script src="{% static 'js/csrf.js' %}"></script>
+      <script src="{% static 'cookielaw/js/cookielaw.js' %}"></script>
     {% endblock javascript %}
   </body>
 </html>
