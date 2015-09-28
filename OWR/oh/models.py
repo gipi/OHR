@@ -2,6 +2,7 @@ from django.db import models
 from taggit.managers import TaggableManager
 from django.contrib import admin
 from config import settings
+from model_utils import Choices
 
 
 def resolve_upload_path(prefix):
@@ -30,13 +31,31 @@ class OpenHardware(models.Model):
 
     url        = models.URLField(help_text=u'Main site')
     image      = models.ImageField(upload_to=resolve_upload_path_image) # TODO: multiple images
-    schematics = models.FileField(upload_to=resolve_upload_path_schematics)
-    layout     = models.FileField(upload_to=resolve_upload_path_layout)
 
     tags = TaggableManager()
 
     def __unicode__(self):
         return self.name
+
+def upload_to_resolver(instance, filename):
+    return '%(name)s/%(type)s/%(filename)s' % {
+        'name': instance.oh.name,
+        'type': instance.type,
+        'filename': filename,
+    }
+
+class OpenHardwareAttachment(models.Model):
+    '''
+    Link some external document to the OpenHardware instance.
+    '''
+    TYPES = Choices(
+        ('schematics', ('schematics'),),
+        ('layout', ('layout'),),
+    )
+    oh   = models.ForeignKey(OpenHardware)
+    type = models.CharField(choices=TYPES, max_length=100)
+    file = models.FileField(upload_to=upload_to_resolver)
+    description = models.CharField(max_length=100, help_text=u'Indicate for example what program can edit it')
 
 class OpenHardwareLike(models.Model):
     '''
@@ -50,8 +69,15 @@ class OpenHardwareLike(models.Model):
         return [_.oh for _ in OpenHardwareLike.objects.filter(user=user)]
 
 
+
+class OpenHardwareAttachmentAdmin(admin.TabularInline):
+    model = OpenHardwareAttachment
+
 @admin.register(OpenHardware)
 class OpenHardwareAdmin(admin.ModelAdmin):
+    inlines = [
+        OpenHardwareAttachmentAdmin
+    ]
     list_display = [
         'name',
         'short_description',
