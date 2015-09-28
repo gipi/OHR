@@ -12,7 +12,7 @@
     <div class="card">
       <img class="card-img-top" src="{{ item.image.url }}" style="width:100%" alt="Card image cap">
       <div class="card-block">
-        <h4 class="card-title"><a href="#">{{ item.name }}</a></h4>
+        <h4 class="card-title"><a href="{{ item.url }}">{{ item.name }}</a></h4>
         <p class="card-text">{{ item.short_description }}</p>
           <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
           {% for attachment in item.openhardwareattachment_set.all %}
