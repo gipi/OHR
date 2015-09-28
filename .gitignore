@@ -55,3 +55,6 @@ node_modules/
 
 # virtual environments
 .env
+
+# Media uploaded
+/OWR/media/
