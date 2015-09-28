@@ -105,7 +105,8 @@ function _on_error() { {% block js_on_error %}{% endblock %} }
  * TODO: create minimal app to add ajax functionality
  *       to a django project, like http://yceruto.github.io/django-ajax/
  */
-$('.like-action').on('click', null, function() {
+$('.like-action').on('click', null, function(e) {
+    e.preventDefault();
     var that = $(this);
     var $id = $(this).attr('data-id');
     var action = $(this).attr('data-action');
