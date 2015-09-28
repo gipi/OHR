@@ -27,7 +27,6 @@ class OpenHardware(models.Model):
 
     name = models.CharField(max_length=50)
     short_description = models.CharField(max_length=150)
-    description = models.TextField()
 
     url        = models.URLField(help_text=u'Main site')
     image      = models.ImageField(upload_to=resolve_upload_path_image) # TODO: multiple images
