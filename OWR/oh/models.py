@@ -20,6 +20,19 @@ def resolve_upload_path_schematics(instance, filename):
 def resolve_upload_path_layout(instance, filename):
     return resolve_upload_path('layout')
 
+def upload_to_resolver_for_image(instance, filename):
+    return '%(name)s/images/%(filename)s' % {
+        'name': instance.slug,
+        'filename': filename,
+    }
+
+def upload_to_resolver(instance, filename):
+    return '%(name)s/%(type)s/%(filename)s' % {
+        'name': instance.slug,
+        'type': instance.type,
+        'filename': filename,
+    }
+
 class OpenHardware(models.Model):
     '''
     This model represents the Open Hardware device linked with all the
@@ -30,19 +43,13 @@ class OpenHardware(models.Model):
     short_description = models.CharField(max_length=150)
 
     url        = models.URLField(help_text=u'Main site')
-    image      = models.ImageField(upload_to=resolve_upload_path_image) # TODO: multiple images
+    image      = models.ImageField(upload_to=upload_to_resolver_for_image) # TODO: multiple images
+    slug       = models.SlugField(unique=True)
 
     tags = TaggableManager()
 
     def __unicode__(self):
         return self.name
-
-def upload_to_resolver(instance, filename):
-    return '%(name)s/%(type)s/%(filename)s' % {
-        'name': instance.oh.name,
-        'type': instance.type,
-        'filename': filename,
-    }
 
 class OpenHardwareAttachment(models.Model):
     '''
@@ -56,6 +63,10 @@ class OpenHardwareAttachment(models.Model):
     type = models.CharField(choices=TYPES, max_length=100)
     file = models.FileField(upload_to=upload_to_resolver)
     description = models.CharField(max_length=100, help_text=u'Indicate for example what program can edit it')
+    @property
+    def slug(self):
+        '''Use the same slug as the OH instance is attached to'''
+        return self.oh.slug
 
 class OpenHardwareLike(models.Model):
     '''
@@ -82,3 +93,25 @@ class OpenHardwareAdmin(admin.ModelAdmin):
         'name',
         'short_description',
     ]
+
+    def get_readonly_fields(self, request, obj=None):
+        '''
+        The main modification is to not make modifiable the slug attribute
+        once saved to avoid losing link media <-> instance.
+        '''
+        ro_fields = super(OpenHardwareAdmin, self).get_readonly_fields(request, obj)
+
+        if obj:
+            pass
+            ro_fields += ('slug',)
+
+        return ro_fields
+
+    def get_prepopulated_fields(self, request, obj=None):
+        '''Complete get_readonly_fields in order to allow slug to be prepopulated.'''
+        prepopulated_field = super(OpenHardwareAdmin, self).get_prepopulated_fields(request, obj)
+
+        if not obj:
+            prepopulated_field.update({"slug": ("name",)})
+
+        return prepopulated_field
