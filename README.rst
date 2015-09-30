@@ -43,7 +43,7 @@ To run the tests, check your test coverage, and generate an HTML coverage report
     OWR/contrib/sites/__init__        0      0   100%
     OWR/oh/__init__                   0      0   100%
     OWR/oh/factory                    8      0   100%
-    OWR/oh/models                    58     19    67%
+    OWR/oh/models                    48     13    73%
     OWR/oh/tests                     60      0   100%
     OWR/oh/urls                       4      0   100%
     OWR/oh/views                     26      0   100%
@@ -58,7 +58,7 @@ To run the tests, check your test coverage, and generate an HTML coverage report
     OWR/users/urls                    4      0   100%
     OWR/users/views                  24      0   100%
     -------------------------------------------------
-    TOTAL                           282     19    93%
+    TOTAL                           272     13    95%
 
 Live reloading and Sass CSS compilation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

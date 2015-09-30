@@ -1,25 +1,12 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from django.contrib import admin
+#from django.utils.text import slugify
+
 from config import settings
 from model_utils import Choices
 from licensing.models import Licensed
 
-
-def resolve_upload_path(prefix):
-    def _resolve(instance, filename):
-        return '%s/%s/%s' % (instance.name, prefix, filename)
-
-    return _resolve
-
-def resolve_upload_path_image(instance, filename):
-    return resolve_upload_path('images')
-
-def resolve_upload_path_schematics(instance, filename):
-    return resolve_upload_path('schematics')
-
-def resolve_upload_path_layout(instance, filename):
-    return resolve_upload_path('layout')
 
 def upload_to_resolver_for_image(instance, filename):
     return '%(name)s/images/%(filename)s' % {
@@ -66,6 +53,8 @@ class OpenHardwareAttachment(Licensed):
     type = models.CharField(choices=TYPES, max_length=100)
     file = models.FileField(upload_to=upload_to_resolver)
     description = models.CharField(max_length=100, help_text=u'Indicate for example what program can edit it')
+    #license = LicenseField()
+
     @property
     def slug(self):
         '''Use the same slug as the OH instance is attached to'''
