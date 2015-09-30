@@ -7,14 +7,23 @@
 {% comment %}
     Here we show the list of the OSHW element present in the database
 {% endcomment %}
+<div class="col-md-12 m-a-md">
+    <p class="pull-left h3">Wellcome to a reliable source for Open Hardware devices.</p>
+    <button class="btn btn-primary pull-right">Add</button>
+</div>
 {% for item in object_list %}
 <div class="col-md-4 oh-list">
     <div class="card">
+          <p>
+              <a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set">
+                  <i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>
+              </a>
+          </p>
       <img class="card-img-top" src="{{ item.image.url }}" style="width:100%" alt="Card image cap">
       <div class="card-block">
         <h4 class="card-title"><a href="{{ item.url }}">{{ item.name }}</a></h4>
         <p class="card-text">{{ item.short_description }}</p>
-          <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
+          <p>
           <ul class="list-group">
           {% for attachment in item.openhardwareattachment_set.all %}
           <li class="list-group-item">{{ attachment.type }}: {{ attachment.description|lower }}
@@ -27,11 +36,8 @@
           <p>NO ATTACHMENTS</p>
           {% endfor %}
           </ul>
-          <p>
-              <a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set">
-                  <i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>
-              </a>
           </p>
+          <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
       </div>
 </div>
 </div>
