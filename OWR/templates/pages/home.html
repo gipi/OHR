@@ -15,11 +15,18 @@
         <h4 class="card-title"><a href="{{ item.url }}">{{ item.name }}</a></h4>
         <p class="card-text">{{ item.short_description }}</p>
           <p>{% for tag in item.tags.all %}<span class="label label-pill label-default">{{ tag.name }}</span> {% endfor %}</p>
+          <ul class="list-group">
           {% for attachment in item.openhardwareattachment_set.all %}
-          <p>{{ attachment.type }}: <a href="{{ attachment.file.url }}">{{ attachment.description }}</a> </p>
+          <li class="list-group-item">{{ attachment.type }}: {{ attachment.description|lower }}
+              <span class="pull-right">
+                  <i class="openwebicons">{{ attachment.license.symbols }}</i>
+                  <a href="{{ attachment.file.url }}"><i class="fa fa-download"></i></a>
+              </span>
+          </li>
           {% empty %}
           <p>NO ATTACHMENTS</p>
           {% endfor %}
+          </ul>
           <p>
               <a href="#" class="like-action" data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set">
                   <i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>

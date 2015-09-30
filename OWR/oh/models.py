@@ -3,6 +3,7 @@ from taggit.managers import TaggableManager
 from django.contrib import admin
 from config import settings
 from model_utils import Choices
+from licensing.models import Licensed
 
 
 def resolve_upload_path(prefix):
@@ -51,7 +52,9 @@ class OpenHardware(models.Model):
     def __unicode__(self):
         return self.name
 
-class OpenHardwareAttachment(models.Model):
+# TODO: use code like <https://github.com/nathan-osman/django-archive/blob/master/django_archive/management/commands/archive.py#L89>
+#       to create an archive of all attachments
+class OpenHardwareAttachment(Licensed):
     '''
     Link some external document to the OpenHardware instance.
     '''

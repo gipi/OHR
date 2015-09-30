@@ -1,3 +1,6 @@
+/* http://pfefferle.github.io/openwebicons/usage/ */
+@import url("http://weloveiconfonts.com/api/?family=openwebicons");
+
 /* These styles are generated from project.scss. */
 
 .alert-debug {
@@ -32,4 +35,11 @@
 /* LIST */
 .oh-list .card-text {
   min-height: 100px;
+}
+
+
+/* openwebicons */
+i.openwebicons {
+  font-family: 'OpenWeb Icons', sans-serif;
+  font-style: normal;
 }

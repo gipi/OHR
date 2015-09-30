@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = (
 
     'taggit',
     'cookielaw',
+    'licensing',
 )
 
 # Apps specific for this project go here.
