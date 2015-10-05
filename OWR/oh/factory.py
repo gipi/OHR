@@ -8,3 +8,4 @@ class OpenHardwareFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: 'name {0}'.format(n))
     slug = factory.Sequence(lambda n: 'slug-{0}'.format(n))
+    image = factory.django.ImageField(width=1024, height=768)
