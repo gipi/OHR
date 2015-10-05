@@ -17,6 +17,7 @@ class OpenHardwareViewTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user  = UserFactory()
+        self.admin = UserFactory(is_superuser=True, is_staff=True)
         self.deals = OpenHardwareFactory.create_batch(10)
 
     def test_like_add_not_logged(self):
