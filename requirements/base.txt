@@ -42,4 +42,4 @@ redis>=2.10.0
 django-cookie-law==1.0.6
 django-jet==0.0.9
 django-taggit==0.17.1
-django-licensing==0.2.4
+-e git+http://github.com/gipi/django-licensing@33fc6f0#egg=django_licensing

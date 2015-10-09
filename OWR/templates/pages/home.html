@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load oh_tags %}
+{% load licensing_tags %}
 
 {% block content %}
 {% likes_for_user user as likes %}
@@ -27,8 +28,7 @@
           <ul class="list-group">
           {% for attachment in item.openhardwareattachment_set.all %}
           <li class="list-group-item">{{ attachment.type }}: {{ attachment.description|lower }}
-              <span class="pull-right">
-                  <i class="openwebicons">{{ attachment.license.symbols }}</i>
+              <span class="pull-right">{% show_license attachment.license %}
                   <a href="{{ attachment.file.url }}"><i class="fa fa-download"></i></a>
               </span>
           </li>
