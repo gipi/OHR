@@ -18,7 +18,7 @@ class OpenHardwareViewTests(TestCase):
         self.factory = RequestFactory()
         self.user  = UserFactory()
         self.admin = UserFactory(is_superuser=True, is_staff=True)
-        self.deals = OpenHardwareFactory.create_batch(10)
+        self.ohs = OpenHardwareFactory.create_batch(10)
 
     def test_like_add_not_logged(self):
         count_start = OpenHardwareLike.objects.count()
@@ -76,7 +76,7 @@ class OpenHardwareViewTests(TestCase):
 
 
     def test_remove_like(self):
-        deal_to_test = self.deals[0]
+        deal_to_test = self.ohs[0]
         OpenHardwareLike.objects.create(oh=deal_to_test, user=self.user)
         count_start = OpenHardwareLike.objects.count()
 
