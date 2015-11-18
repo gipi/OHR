@@ -12,8 +12,10 @@ from OWR.oh.models import OpenHardware
 class HomeListView(ListView):
     model = OpenHardware
 
+home_view = HomeListView.as_view(template_name='pages/home.html')
+
 urlpatterns = [
-    url(r'^$', HomeListView.as_view(template_name='pages/home.html'), name="home"),
+    url(r'^$', home_view, name="home"),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin
@@ -26,8 +28,6 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
     url(r'^oh/', include('OWR.oh.urls', namespace='oh')),
-
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
