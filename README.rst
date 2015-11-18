@@ -15,7 +15,7 @@ After that you can use::
 
     $ docker-compose -f dev.yml build
     $ docker-compose -f dev.yml up -d
-    $ docker compose logs
+    $ docker-compose logs
 
 Settings
 ------------
