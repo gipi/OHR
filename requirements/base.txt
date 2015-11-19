@@ -39,7 +39,7 @@ redis>=2.10.0
 
 
 # Your custom requirements go here
--e git+http://github.com/gipi/django-cookie-law@fix#egg=cookielaw
+-e git+https://github.com/gipi/django-cookie-law@fix#egg=cookielaw
 django-jet==0.0.9
 django-taggit==0.17.1
--e git+http://github.com/editorsnotes/django-licensing@f6ab8c5#egg=django_licensing
+-e git+https://github.com/editorsnotes/django-licensing@f6ab8c5#egg=django_licensing
