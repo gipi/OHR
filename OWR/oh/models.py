@@ -69,7 +69,7 @@ class OpenHardwareLike(models.Model):
 
     @staticmethod
     def get_oh_for_user(user):
-        return [_.oh for _ in OpenHardwareLike.objects.filter(user=user)]
+        return [_.oh for _ in OpenHardwareLike.objects.filter(user=user if user.is_authenticated() else None)]
 
 
 
