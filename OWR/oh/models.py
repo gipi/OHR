@@ -85,25 +85,6 @@ class OpenHardwareAdmin(admin.ModelAdmin):
         'name',
         'short_description',
     ]
+    prepopulated_fields = {'slug': ('name',)}
 
-    def get_readonly_fields(self, request, obj=None):
-        '''
-        The main modification is to not make modifiable the slug attribute
-        once saved to avoid losing link media <-> instance.
-        '''
-        ro_fields = super(OpenHardwareAdmin, self).get_readonly_fields(request, obj)
-
-        if obj:
-            pass
-            ro_fields += ('slug',)
-
-        return ro_fields
-
-    def get_prepopulated_fields(self, request, obj=None):
-        '''Complete get_readonly_fields in order to allow slug to be prepopulated.'''
-        prepopulated_field = super(OpenHardwareAdmin, self).get_prepopulated_fields(request, obj)
-
-        if not obj:
-            prepopulated_field.update({"slug": ("name",)})
-
-        return prepopulated_field
+    # FIXME: on save move media files if slug is changed
