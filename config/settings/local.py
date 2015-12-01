@@ -14,6 +14,7 @@ from .common import *  # noqa
 # ------------------------------------------------------------------------------
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+TEMPLATES[0]['OPTIONS']['string_if_invalid'] = 'ERROR: %s'
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
