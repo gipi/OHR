@@ -9,6 +9,6 @@ class UserFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('username',)
 
 
-    username = factory.Sequence(lambda n: 'User {0}'.format(n))
+    username = factory.Sequence(lambda n: 'user-{0}'.format(n))
     # http://stackoverflow.com/questions/15616277/how-can-you-create-an-admin-user-with-factory-boy
     password = factory.PostGenerationMethodCall('set_password', 'password')
