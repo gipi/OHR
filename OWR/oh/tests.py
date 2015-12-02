@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 import json
+import random
+
 from unittest import TestCase
 from django.test.client import RequestFactory
 from django.core.urlresolvers import reverse
@@ -14,11 +16,12 @@ from .factory import OpenHardwareFactory
 
 
 class OpenHardwareViewTests(TestCase):
+    BATCH_NUMBER = 10
     def setUp(self):
         self.factory = RequestFactory()
         self.user  = UserFactory()
         self.admin = UserFactory(is_superuser=True, is_staff=True)
-        self.ohs = OpenHardwareFactory.create_batch(10)
+        self.ohs = OpenHardwareFactory.create_batch(self.BATCH_NUMBER)
 
     def test_like_add_not_logged(self):
         count_start = OpenHardwareLike.objects.count()
@@ -42,10 +45,11 @@ class OpenHardwareViewTests(TestCase):
         self.assertEqual(count_start, count_final)
 
     def test_like_add_logged(self):
+        idx = random.randrange(0, self.BATCH_NUMBER)
         count_start = OpenHardwareLike.objects.count()
 
         # this is logged
-        request = self.factory.post(reverse('oh:like_set'), data=json.dumps({'id': 1, 'action': 'set'}), content_type='text/javascript')
+        request = self.factory.post(reverse('oh:like_set'), data=json.dumps({'id': self.ohs[idx].pk, 'action': 'set'}), content_type='text/javascript')
         request.user = self.user
         response = like_set(request)
 
