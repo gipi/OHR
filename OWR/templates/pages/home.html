@@ -37,7 +37,9 @@
     <div class="card">
           <p>
               <a href="#" {% if user.is_authenticated %}class="like-action"{% endif %} data-id="{{ item.pk }}" data-action="{%if item in likes %}un{% endif%}set">
-                  <i class="fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>
+                  <i class="likes fa fa-lg fa-star{% if item not in likes %}-o{% endif %}"></i>
+                  {% comment %} TODO: the code below makes a query for each item, try to customize main query to include count in it{% endcomment %}
+                  <i class="n_likes">{{ item.openhardwarelike_set.count }}</i>
               </a>
           </p>
       <img class="card-img-top" src="{{ item.image.url }}" style="width:100%" alt="Card image cap">
@@ -147,7 +149,7 @@ $('.like-action').on('click', null, function(e) {
     var __on_success = function(data) {
         var table = {};
 
-        var i = that.find('i');
+        var i = that.find('i.likes');
 
         console.log('that: ' + that);
 
@@ -171,6 +173,11 @@ $('.like-action').on('click', null, function(e) {
 
         // use .attr() to change data-* attributes
         that.attr('data-action', data['action'] == 'set' ? 'unset' : 'set');
+
+        var i_count = that.find('i.n_likes');
+
+        var count = parseInt(i_count.text());
+        i_count.text(data['action'] == 'set' ? count + 1 : count - 1);
     };
 
     call_like('{% url 'oh:like_set' %}', {id: $id, action: action}, $(this), __on_success, _on_error);
