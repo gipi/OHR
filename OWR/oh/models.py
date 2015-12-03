@@ -53,7 +53,6 @@ class OpenHardwareAttachment(Licensed):
     type = models.CharField(choices=TYPES, max_length=100)
     file = models.FileField(upload_to=upload_to_resolver)
     description = models.CharField(max_length=100, help_text=u'Indicate for example what program can edit it')
-    #license = LicenseField()
 
     @property
     def slug(self):
