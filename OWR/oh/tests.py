@@ -20,8 +20,10 @@ class OpenHardwareViewTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
+        # we are creating two users (1 normal, 1 superuser)
         self.user  = UserFactory()
-        self.admin = UserFactory(is_superuser=True, is_staff=True)
+        self.admin = UserFactory(username='admin', is_superuser=True, is_staff=True)
+        # and a bunch of openhardware instances
         self.ohs = OpenHardwareFactory.create_batch(self.BATCH_NUMBER)
 
     def test_like_add_not_logged(self):
@@ -106,6 +108,18 @@ class OpenHardwareViewTests(TestCase):
         self.assertTrue(self.client.login(username=self.user.username, password='password'))
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
+
+    def test_users_list(self):
+        '''We want a list without superuser listed'''
+        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        response = self.client.get(reverse('users:list'))
+
+        self.assertEqual(response.status_code, 200)
+
+        obtained_qs = response.context['object_list']
+        desired_qs  = [self.user.username,]
+
+        self.assertQuerysetEqual(obtained_qs, desired_qs, transform=lambda x:x.username, ordered=False)
 
     def test_admin(self):
         self.assertTrue(self.client.login(username=self.admin.username, password='password'))

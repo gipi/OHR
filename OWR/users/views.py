@@ -46,3 +46,7 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_queryset(self):
+        '''Omit superusers from listing'''
+        return super(UserListView, self).get_queryset().filter(is_superuser=False)
