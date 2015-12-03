@@ -2,11 +2,11 @@ from __future__ import absolute_import
 import json
 import random
 
-from unittest import TestCase
 from django.test.client import RequestFactory
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
+from django.test import Client, TestCase
 
 from OWR.users.factory import UserFactory
 
@@ -18,6 +18,7 @@ from .factory import OpenHardwareFactory
 class OpenHardwareViewTests(TestCase):
     BATCH_NUMBER = 10
     def setUp(self):
+        self.client = Client()
         self.factory = RequestFactory()
         self.user  = UserFactory()
         self.admin = UserFactory(is_superuser=True, is_staff=True)
@@ -95,3 +96,22 @@ class OpenHardwareViewTests(TestCase):
         self.assertEqual(count_start - 1, count_final)
 
         self.assertEqual(json.loads(response.content), {'action': 'unset', 'status': 'ok'})
+
+    def test_index(self):
+        '''We check for stuffs should be in home page.'''
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTrue(self.client.login(username=self.user.username, password='password'))
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_admin(self):
+        self.assertTrue(self.client.login(username=self.admin.username, password='password'))
+
+        url = reverse('admin:oh_openhardware_add')
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
