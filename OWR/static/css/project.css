@@ -30,6 +30,10 @@
 }
 
 /* LIST */
+.oh-list .card-img-top {
+    max-height: 250px;
+}
+
 .oh-list .card-text {
   min-height: 100px;
 }
