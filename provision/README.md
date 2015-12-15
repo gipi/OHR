@@ -1,0 +1,36 @@
+# Provisioning
+
+You can use the files contained in this directory to provision
+your machine in order to make the project working.
+
+To start quickly edit the ``ansible_deploy_inventory`` and ``ansible_deploy_variables``
+files following your taste and then
+
+    $ cd provision/
+    $ bin/ansible -i ansible_deploy_inventory -v ansible_deploy_variables
+
+## Supervisor
+
+To manage the running state of ``uwsgi`` we are using a [supervisor](https://supervisord.readthedocs.org/en/latest/)
+configuration script in ``/etc/supervisor/.conf``.
+
+It's possible to restart the app thanks to a ``sudo`` configuration that allows
+certain commands on ``supervisorctl``.
+
+    $ sudo /usr/bin/supervisorctl restart uwsgi_
+
+
+
+## Ansible
+
+Use the 2.0+ version.
+
+## Vagrant
+
+Out of the box is available a Debian8 virtualbox configuration, you have
+to do a simple
+
+    $ vagrant up --provider virtualbox
+
+
+
