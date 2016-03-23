@@ -17,6 +17,7 @@ APPS_DIR = ROOT_DIR.path('OWR')
 
 env = environ.Env()
 
+env.read_env(ROOT_DIR('.env'))
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
