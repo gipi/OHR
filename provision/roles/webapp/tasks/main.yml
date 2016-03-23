@@ -26,3 +26,7 @@
   authorized_key: user={{ webapp_username }}
                   key="{{ lookup('file', webapp_public_key ) }}"
 
+- name: configure user's profile file to help maintenance
+  template:
+    src=profile.j2
+    dest={{ site_web_root }}/.bash_profile
