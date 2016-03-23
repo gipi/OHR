@@ -1,11 +1,18 @@
 #!/bin/bash
+#
+# All the mumbo-jumbo with the paths is for be sure that the paths
+# passed from command line are relative from the working directory at
+# the time of launch, while the default values are with respect to
+# the provisioning files directory
 
 readonly PROGNAME=$(basename "$0")
 readonly PROGDIR=$(readlink -m $(dirname $0))
 
-INVENTORY_FILE="ansible_vagrant_inventory"
-VARIABLES_FILE="ansible_vagrant_variables"
-PLAYBOOK="playbook.yml"
+PROVISION_DIR="${PROGDIR}/../"
+
+INVENTORY_FILE="${PROVISION_DIR}ansible_vagrant_inventory"
+VARIABLES_FILE="${PROVISION_DIR}ansible_vagrant_variables"
+PLAYBOOK="${PROVISION_DIR}playbook.yml"
 
 
 usage() {
@@ -22,14 +29,14 @@ cmdline() {
             set -x
             ;;
          v)
-            VARIABLES_FILE=$OPTARG
+            VARIABLES_FILE=$PWD/$OPTARG
              ;;
          h)
              usage
              exit 0
              ;;
          i)
-            INVENTORY_FILE=$OPTARG
+            INVENTORY_FILE=$PWD/$OPTARG
             ;;
          \?)
             echo "Unknown option: -$OPTARG" >&2
@@ -44,6 +51,9 @@ cmdline() {
 }
 
 cmdline "$@"
+
+# we change cwd so that the vagrant key is correctly found
+cd $PROVISION_DIR
 
 ansible-playbook                               \
         --inventory-file="${INVENTORY_FILE}"   \
