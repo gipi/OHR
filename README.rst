@@ -9,9 +9,13 @@ LICENSE: BSD
 Getting Started
 ---------------
 
-For local development you can use the ``docker-compose`` application (installable by ``pip``).
+Exists a configuration script to be sourced:
 
-After that you can use::
+    $ source bin/activate
+
+that enable the ``m`` command as alias to ``manage.py`` script.
+
+It's also possible to use the ``docker-compose`` application (installable by ``pip``)::
 
     $ docker-compose -f dev.yml build
     $ docker-compose -f dev.yml up -d

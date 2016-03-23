@@ -1,0 +1,8 @@
+# script to be source in order to activate the development environment
+#
+# TODO: fire up a docker container with postgres inside and maybe create a .env
+#       file if doesn't exist
+
+source ../.virtualenv/bin/activate
+
+alias m="python manage.py"
