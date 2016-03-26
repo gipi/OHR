@@ -6,7 +6,7 @@ server {
 }
 
 server {
-        listen 443 default ssl;
+        listen 443 ssl;
         # TODO: place its own certificates
         ssl_certificate /etc/ssl/certs/{{ site_domain }}_chain.pem;
         ssl_certificate_key /etc/ssl/private/{{ site_domain }};
