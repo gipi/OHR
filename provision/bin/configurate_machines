@@ -6,7 +6,8 @@
 # the provisioning files directory
 
 readonly PROGNAME=$(basename "$0")
-readonly PROGDIR=$(readlink -m $(dirname $0))
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+readonly PROGDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 PROVISION_DIR="${PROGDIR}/../"
 
