@@ -1,16 +1,20 @@
+# http://www.jeffgeerling.com/blog/testing-ansible-roles-travis-ci-github
+# https://docs.travis-ci.com/user/languages/python
+
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq build-essential gettext python-dev zlib1g-dev libpq-dev xvfb
-  - sudo apt-get install -qq libtiff4-dev libjpeg8-dev libfreetype6-dev liblcms1-dev libwebp-dev
-  - sudo apt-get install -qq graphviz-dev python-setuptools python3-dev python-virtualenv python-pip
-  - sudo apt-get install -qq firefox automake libtool libreadline6 libreadline6-dev libreadline-dev
-  - sudo apt-get install -qq libsqlite3-dev libxml2 libxml2-dev libssl-dev libbz2-dev wget curl llvm
+
 language: python
 python:
-  - "3.4"
+  - "2.7"
+
 install:
-  - "pip install hitch"
-  - "cd tests"
-  - "hitch init"
+  - "mv -v .env.sample .env"
+  - "pip install ansible"
+  - "pip install -r ohr/requirements/local.txt"
+  - shopt -s expand_aliases
+  - source bin/activate
+  - configure_machines -l -s
+
 script:
-  - "hitch test . --extra '{\"xvfb\":true, \"pause_on_failure\":false}'"
+  - "m test oh users"

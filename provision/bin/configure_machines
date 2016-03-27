@@ -20,12 +20,12 @@ ANSIBLE_EXTRA_ARGS=""
 
 usage() {
     cat <<- EOF
-usage: $0 [-i <inventory>] [-v <variables>] [-h] [-d] [-l] [-s]
+usage: $0 [-i <inventory>] [-v <variables>] [-h] [-d] [-l] [-s] [-p]
 EOF
 }
 
 cmdline() {
-    while getopts "hdlv:i:" OPTION
+    while getopts "hdsplv:i:" OPTION
     do
          case $OPTION in
          d)
@@ -41,10 +41,13 @@ cmdline() {
          l)
             ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --connection=local"
 
-            echo -e "\n [I] use -s if if failing for sudo/password stuffs\n"
+            echo -e "\n [I] use -p if if failing for sudo/password stuffs\n"
             ;;
          s)
-            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --become --ask-become-pass"
+            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --become"
+            ;;
+         p)
+            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --ask-become-pass"
             ;;
          i)
             INVENTORY_FILE=$PWD/$OPTARG
