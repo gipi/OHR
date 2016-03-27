@@ -77,7 +77,7 @@ def load_db_snapshot(db_name, username):
 def create_release_archive(head='HEAD'):
     with lcd(PROJECT_ROOT_DIR):
         local('mkdir -p %s' % RELEASES_RELATIVE_PATH_DIR)
-        local('git archive --worktree-attributes --format=tar.gz %s > %s' % (
+        local('git archive --worktree-attributes --format=tar.gz %s:ohr > %s' % (
             head,
             get_release_filepath()
         ))

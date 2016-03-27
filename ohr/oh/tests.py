@@ -8,7 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
 from django.test import Client, TestCase
 
-from OWR.users.factory import UserFactory
+from users.factory import UserFactory
 
 from .models import OpenHardwareLike
 from .views import like_set
