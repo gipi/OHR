@@ -13,3 +13,4 @@ extra_packages:
   - git
 db_password: 'mysecretpass'
 development: yes
+snakeoil: yes

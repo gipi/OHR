@@ -7,12 +7,10 @@ server {
 
 server {
         listen 443 ssl;
-        # TODO: place its own certificates
-        ssl_certificate /etc/ssl/certs/{{ site_domain }}_chain.pem;
-        ssl_certificate_key /etc/ssl/private/{{ site_domain }};
 
-        access_log /var/log/nginx/{{ site_domain }}.access.log;
-        error_log /var/log/nginx/{{ site_domain }}.error.log;
+        {% if snakeoil %}ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+        ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;{% else %}   ssl_certificate /etc/ssl/certs/{{ site_domain }}_chain.pem;
+        ssl_certificate_key /etc/ssl/private/{{ site_domain }};{% endif %}
 
         server_name {{ site_domain }};
 
