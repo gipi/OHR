@@ -12,6 +12,16 @@ server {
         ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;{% else %}   ssl_certificate /etc/ssl/certs/{{ site_domain }}_chain.pem;
         ssl_certificate_key /etc/ssl/private/{{ site_domain }};{% endif %}
 
+        # LOG FORMAT W RESPONSE TIME
+        #  see <https://lincolnloop.com/blog/tracking-application-response-time-nginx/>
+        log_format timed_combined '$remote_addr - $remote_user [$time_local] '
+            '"$request" $status $body_bytes_sent '
+            '"$http_referer" "$http_user_agent" '
+            '$request_time $upstream_response_time $pipe';
+
+        access_log {{ site_web_root }}/logs/access.log timed_combined;
+        error_log {{ site_web_root }}/logs/error.log;
+
         server_name {{ site_domain }};
 
         # allow for 2M upload
