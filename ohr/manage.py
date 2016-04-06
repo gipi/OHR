@@ -4,7 +4,7 @@ import sys
 import environ
 
 
-ROOT_DIR = environ.Path(__file__) - 1  # (/a/b/myfile.py - 3 = /)
+ROOT_DIR = environ.Path(__file__) - 2  # (/a/b/myfile.py - 3 = /)
 
 env = environ.Env()
 env.read_env(ROOT_DIR('.env'))

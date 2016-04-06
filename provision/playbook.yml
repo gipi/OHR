@@ -2,9 +2,8 @@
 - hosts: all
   roles:
     - { role: common, tags: common }
-    - { role: nginx, tags: nginx }
-    - { role: databases, tags: databases }
     - { role: webapp, tags: webapp }
-
+    - { role: nginx, tags: nginx }
     - { role: supervisor,   tags: supervisor }
+    - { role: databases, tags: databases }
 

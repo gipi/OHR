@@ -1,8 +1,42 @@
 # script to be source in order to activate the development environment
 #
-# TODO: fire up a docker container with postgres inside and maybe create a .env
-#       file if doesn't exist
+# TODO: create a .env file if doesn't exist
 
-source ../.virtualenv/bin/activate
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+PROJ_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 
-alias m="python manage.py"
+VIRTUALEN_DIR=../.virtualenv
+
+test -d ${VIRTUALEN_DIR} && source ${VIRTUALEN_DIR}/bin/activate
+
+export PATH=${PROJ_ROOT_DIR}/provision/bin/:${PROJ_ROOT_DIR}/bin:$PATH
+
+alias m="python ${PROJ_ROOT_DIR}/ohr/manage.py"
+
+d_postgres() {
+    # https://hub.docker.com/_/postgres/
+    OHR_DOCKER_POSTGRES_ID=$(docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpass -e POSTGRES_USER=postgresuser postgres)
+
+    export OHR_DOCKER_POSTGRES_ID
+
+    echo 'launched container w postgres, id='$OHR_DOCKER_POSTGRES_ID
+}
+
+d_postgres_log() {
+    docker logs ${OHR_DOCKER_POSTGRES_ID}
+}
+
+v() {
+    (cd ${PROJ_ROOT_DIR}/provision && vagrant $1 )
+}
+
+cat <<EOF
+
+Welcome to the ohr development environment
+
+ m                alias to python manage.py
+ v                shortcut to vagrant
+ d_postgres       start a dockerized postgres instance (you have to initialize the database)
+ d_postgres_log   show the log
+
+EOF

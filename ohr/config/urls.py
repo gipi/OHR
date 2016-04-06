@@ -6,10 +6,11 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView, ListView
-from OWR.oh.models import OpenHardware
 
 
 class HomeListView(ListView):
+    from oh.models import OpenHardware
+
     model = OpenHardware
 
 home_view = HomeListView.as_view(template_name='pages/home.html')
@@ -23,11 +24,11 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # User management
-    url(r'^users/', include("OWR.users.urls", namespace="users")),
+    url(r'^users/', include("users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
-    url(r'^oh/', include('OWR.oh.urls', namespace='oh')),
+    url(r'^oh/', include('oh.urls', namespace='oh')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

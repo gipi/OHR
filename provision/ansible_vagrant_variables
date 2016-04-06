@@ -1,0 +1,17 @@
+---
+site_domain: 'ohr.lol'
+site_name: 'ohr'
+site_web_root: '/var/www/ohr'
+webapp_username: 'ohr'
+webapp_public_key: 'id_rsa_ohr.pub'
+db_version: '9.4'
+db_name: 'ohr'
+db_user: 'postgres'
+extra_packages:
+  - build-essential
+  - python-virtualenv
+  - python-dev
+  - git
+db_password: 'mysecretpass'
+development: yes
+snakeoil: yes

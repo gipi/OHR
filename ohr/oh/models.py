@@ -1,9 +1,9 @@
+from django.contrib import admin
 from django.db import models
 from taggit.managers import TaggableManager
-from django.contrib import admin
 #from django.utils.text import slugify
 
-from config import settings
+from django.conf import settings
 from model_utils import Choices
 from licensing.models import Licensed
 
@@ -63,7 +63,7 @@ class OpenHardwareLike(models.Model):
     '''
     Connect the User to the Open Hardware she likes.
     '''
-    user = models.ForeignKey(settings.common.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     oh   = models.ForeignKey(OpenHardware)
 
     @staticmethod

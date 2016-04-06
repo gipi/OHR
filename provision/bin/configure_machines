@@ -6,7 +6,8 @@
 # the provisioning files directory
 
 readonly PROGNAME=$(basename "$0")
-readonly PROGDIR=$(readlink -m $(dirname $0))
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+readonly PROGDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 PROVISION_DIR="${PROGDIR}/../"
 
@@ -15,17 +16,19 @@ VARIABLES_FILE="${PROVISION_DIR}ansible_vagrant_variables"
 PLAYBOOK="${PROVISION_DIR}playbook.yml"
 
 
+ANSIBLE_EXTRA_ARGS=""
+
 usage() {
     cat <<- EOF
-usage: $0 [-i <inventory>] [-v <variables>] [-h] [-t]
+usage: $0 [-i <inventory>] [-v <variables>] [-h] [-d] [-l] [-s] [-p]
 EOF
 }
 
 cmdline() {
-    while getopts "htv:i:" OPTION
+    while getopts "hdsplv:i:" OPTION
     do
          case $OPTION in
-         t)
+         d)
             set -x
             ;;
          v)
@@ -35,6 +38,17 @@ cmdline() {
              usage
              exit 0
              ;;
+         l)
+            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --connection=local"
+
+            echo -e "\n [I] use -p if if failing for sudo/password stuffs\n"
+            ;;
+         s)
+            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --become"
+            ;;
+         p)
+            ANSIBLE_EXTRA_ARGS=${ANSIBLE_EXTRA_ARGS}" --ask-become-pass"
+            ;;
          i)
             INVENTORY_FILE=$PWD/$OPTARG
             ;;
@@ -55,8 +69,9 @@ cmdline "$@"
 # we change cwd so that the vagrant key is correctly found
 cd $PROVISION_DIR
 
-ansible-playbook                               \
+exec ansible-playbook                               \
         --inventory-file="${INVENTORY_FILE}"   \
         --extra-vars @"${VARIABLES_FILE}"      \
+        ${ANSIBLE_EXTRA_ARGS}                  \
         "${PLAYBOOK}"
 

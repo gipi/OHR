@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
-import OWR.oh.models
+import oh.models
 import taggit.managers
 
 
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=50)),
                 ('short_description', models.CharField(max_length=150)),
                 ('url', models.URLField(help_text='Main site')),
-                ('image', models.ImageField(upload_to=OWR.oh.models.upload_to_resolver_for_image)),
+                ('image', models.ImageField(upload_to=oh.models.upload_to_resolver_for_image)),
                 ('slug', models.SlugField(unique=True)),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('type', models.CharField(max_length=100, choices=[(b'schematics', b'schematics'), (b'layout', b'layout')])),
-                ('file', models.FileField(upload_to=OWR.oh.models.upload_to_resolver)),
+                ('file', models.FileField(upload_to=oh.models.upload_to_resolver)),
                 ('description', models.CharField(help_text='Indicate for example what program can edit it', max_length=100)),
                 ('license', models.ForeignKey(to='licensing.License')),
                 ('oh', models.ForeignKey(to='oh.OpenHardware')),
