@@ -3,6 +3,7 @@ Open Hardware Repository
 
 Repository of Open Hardware projects
 
+![travis build status](https://travis-ci.org/gipi/OHR.svg)
 
 LICENSE: BSD
 
